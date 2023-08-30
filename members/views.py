@@ -47,10 +47,10 @@ def activities(request):
                     points = points + 5
                 if data["time"] == "ongoing":
                     points = points + 10
-            elif data["type"] == "event-participation":
+            elif data["type"] == "part":
                 points = 30
-            elif data["type"] == "event-organization":
-                points = 40
+            else:
+                return Response({"error": "wrong activity type"})
             data["points"] = points
             serializer = NewActivitySerializer(data=data)
             serializer.is_valid(raise_exception=True)
