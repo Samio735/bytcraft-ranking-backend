@@ -1,1 +1,1 @@
-# bytcraft-ranking-backend
+# bytecraft-ranking-api
