@@ -126,12 +126,22 @@ def finish_activity(request):
                 return Response({"error": "activity already finished"})
             activity.status = "finished"
             members = Member.objects.filter(activities__id=request.data["activity"])
-            for member in members:
-                member.points = member.points + activity.points
-                member.save()
+            if (activity.type == "meet" and activity.importance == "obligatory"):
+                for member in members:
+                    member.points = member.points + 20
+                    member.save()
+                all_members = Member.objects.all()
+                for member in all_members:
+                    member.points = member.points + -10
+                    member.save()
+            else:
+                
+                for member in members:
+                    member.points = member.points + activity.points
+                    member.save()
             activity.save()
             return Response({"activities": ActivitySerializer(Activities.objects.filter(department=request.data["department"],status="active"), many=True).data ,
-                             "activity": ActivitySerializer(activity).data})
+                                "activity": ActivitySerializer(activity).data})
         else:
             return Response({"error": "session expired"})
         

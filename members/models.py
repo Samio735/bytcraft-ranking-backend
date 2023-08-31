@@ -36,6 +36,7 @@ ACTIVITY_STATUS_CHOICES = (
 IMPORTANCE_CHOICES = (
     ("training", "Training"),
     ("important", "Important"),
+    ("obligatory","Obligatory")
 )
 
 TIME_CHOICES = (
