@@ -13,6 +13,8 @@ class NewActivitySerializer(serializers.ModelSerializer):
         fields = ["name","points","type","department","importance","time"]
     
 class ActivitySerializer(serializers.ModelSerializer):
+    members = MemberSerializer(many=True)
+
     class Meta:
         model = Activities
         fields = "__all__"

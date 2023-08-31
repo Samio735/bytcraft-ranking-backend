@@ -15,6 +15,10 @@ class Member(models.Model):
     name = models.CharField(max_length=100)
     department = models.CharField(choices=DEPARTMENT_CHOICES, null=True, blank=True, max_length=100)
     points = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return self.name
+    
 
 
 ACTIVITY_TYPE_CHOICES = (
