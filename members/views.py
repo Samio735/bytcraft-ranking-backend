@@ -28,10 +28,10 @@ def get_members(request):
 def activities(request):
     if request.method == "GET":
         if request.GET.get("department", None) == None:
-                    query_set = ActivitySerializer(Activities.objects.all(), many=True).data
+                    query_set = ActivitySerializer(Activities.objects.all().prefetch_related("members"), many=True).data
                     return Response({"activities": query_set})
         else:
-            query_set = ActivitySerializer(Activities.objects.filter(department=request.GET["department"]), many=True).data
+            query_set = ActivitySerializer(Activities.objects.filter(department=request.GET["department"]).prefetch_related("members"), many=True).data
             return Response({"activities": query_set})
     elif request.method == "POST":
         if check_credentials(request.data["department"], request.data["password"]):
@@ -55,7 +55,7 @@ def activities(request):
             serializer = NewActivitySerializer(data=data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            resp = ActivitySerializer(Activities.objects.filter(department=request.data["department"],status="active"), many=True).data
+            resp = ActivitySerializer(Activities.objects.filter(department=request.data["department"],status="active").prefetch_related("members"), many=True).data
             return Response({"activities": resp})
         else:
             return Response({"error": "session expired"})
@@ -63,7 +63,7 @@ def activities(request):
         if check_credentials(request.data["department"], request.data["password"]):
             activity = Activities.objects.get(id=request.data["activity"])
             activity.delete()
-            resp = ActivitySerializer(Activities.objects.filter(department=request.data["department"],status="active"), many=True).data
+            resp = ActivitySerializer(Activities.objects.filter(department=request.data["department"],status="active").prefetch_related("members"), many=True).data
             return Response({"activities": resp})
         else:
             return Response({"error": "session expired"})
