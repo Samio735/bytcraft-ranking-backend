@@ -154,3 +154,10 @@ def active_activities(request):
         else:
             query_set = ActivitySerializer(Activities.objects.filter(status="active", department=request.GET["department"]), many=True).data
             return Response({"activities": query_set})
+        
+@api_view(["GET"])
+def activity(request, activity_id):
+    if request.method == "GET":
+        activity = Activities.objects.get(id=activity_id)
+        return Response({"activity": ActivitySerializer(activity).data})
+    
