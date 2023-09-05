@@ -2,7 +2,7 @@ asgiref==3.7.2
 Django==3.2.20
 django-cors-headers==4.0.0
 djangorestframework==3.14.0
-gunicorn==19.7.1
+gunicorn
 packaging==23.1
 psycopg2-binary==2.9.7
 python-dotenv==0.20.0
