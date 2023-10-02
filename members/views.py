@@ -87,8 +87,8 @@ def login(request):
             return Response({"isLogedin": False,
                              "department": request.data["department"],
                              "password": request.data["password"],
-                             "error": "wrong password or department"},
-                            "real": os.environ.get("DEV_PASSWORD"))
+                             "error": "wrong password or department",
+                            "real": os.environ.get("DEV_PASSWORD")})
     
 # assign a member to an activity
 
