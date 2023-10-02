@@ -70,7 +70,7 @@ def activities(request):
             
 
 def check_credentials(department, password):
-    print(os.environ.get("DEV_PASSWORD"))
+    
     if (department == "development" and password == os.environ.get("DEV_PASSWORD")) | (department == "design" and password == os.environ.get("DESIGN_PASSWORD")) | (department == "communication" and password == os.environ.get("COM_PASSWORD")) | (department == "relex-logistics" and password == os.environ.get("RELEX_PASSWORD")) | (department == "multimedia" and password == os.environ.get("MULTI_PASSWORD")):
         return True
     else:
@@ -82,7 +82,8 @@ def login(request):
         if check_credentials(request.data["department"], request.data["password"]):
             return Response({"isLogedin": True,
                              "department": request.data["department"],
-                             "password": request.data["password"]})
+                             "password": request.data["password"],
+                            "real": os.environ.get("DEV_PASSWORD")})
         else:
             return Response({"isLogedin": False,
                              "department": request.data["department"],
