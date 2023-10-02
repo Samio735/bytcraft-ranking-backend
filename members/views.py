@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import MemberSerializer , NewActivitySerializer, ActivitySerializer
 import os
+from decouple import config
 
 # Create your views here.
 
@@ -88,7 +89,7 @@ def login(request):
                              "department": request.data["department"],
                              "password": request.data["password"],
                              "error": "wrong password or department",
-                            "real": os.environ.get("DEV_PASSWORD")})
+                            "real": config('DEV_PASSWORD')})
     
 # assign a member to an activity
 
