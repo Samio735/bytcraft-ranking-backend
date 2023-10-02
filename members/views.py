@@ -72,7 +72,7 @@ def activities(request):
 
 def check_credentials(department, password):
     
-    if (department == "development" and password == os.environ.get("DEV_PASSWORD")) | (department == "design" and password == os.environ.get("DESIGN_PASSWORD")) | (department == "communication" and password == os.environ.get("COM_PASSWORD")) | (department == "relex-logistics" and password == os.environ.get("RELEX_PASSWORD")) | (department == "multimedia" and password == os.environ.get("MULTI_PASSWORD")):
+    if (department == "development" and password == config('DEV_PASSWORD')) | (department == "design" and password == config('DESIGN_PASSWORD')) | (department == "communication" and password == config('COM_PASSWORD')) | (department == "relex-logistics" and password == config('RELEX_PASSWORD')) | (department == "multimedia" and password == config('MULT_PASSWORD')):
         return True
     else:
         return False        
@@ -88,8 +88,7 @@ def login(request):
             return Response({"isLogedin": False,
                              "department": request.data["department"],
                              "password": request.data["password"],
-                             "error": "wrong password or department",
-                            "real": config('DEV_PASSWORD')})
+                             "error": "wrong password or department"})
     
 # assign a member to an activity
 
