@@ -82,13 +82,13 @@ def login(request):
         if check_credentials(request.data["department"], request.data["password"]):
             return Response({"isLogedin": True,
                              "department": request.data["department"],
-                             "password": request.data["password"],
-                            "real": os.environ.get("DEV_PASSWORD")})
+                             "password": request.data["password"]})
         else:
             return Response({"isLogedin": False,
                              "department": request.data["department"],
                              "password": request.data["password"],
-                             "error": "wrong password or department"})
+                             "error": "wrong password or department"},
+                            "real": os.environ.get("DEV_PASSWORD"))
     
 # assign a member to an activity
 
