@@ -84,12 +84,15 @@ WSGI_APPLICATION = 'ranking.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-	'default': {
-    	'ENGINE': 'django.db.backends.mysql',
-    	'OPTIONS': {
-        	'read_default_file': '/etc/mysql/my.cnf',
-    	},
-	}
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'django',
+        'USER': 'django',
+        'PASSWORD': '55071c60482282b1fa485d0b427f20d2',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'OPTIONS': {'sslmode': 'require'},
+    }
 }
 
 # Password validation
