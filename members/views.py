@@ -1,10 +1,9 @@
 from django.shortcuts import render
-from .models import Member, Activities
+from .models import Member, Activities , Department
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import MemberSerializer , NewActivitySerializer, ActivitySerializer
-import os
-from decouple import config
+import os,csv
 
 # Create your views here.
 
@@ -21,7 +20,7 @@ def get_members(request):
             querty_set = MemberSerializer(Member.objects.all().order_by("-points"), many=True).data
             return Response({"members": querty_set})
         else:
-            querty_set = MemberSerializer(Member.objects.filter(department=request.GET["department"]).order_by("-points"), many=True).data
+            querty_set = MemberSerializer(Member.objects.filter(departments=request.GET["department"]).order_by("-points"), many=True).data
             return Response({"members": querty_set})
 
 
@@ -72,7 +71,7 @@ def activities(request):
 
 def check_credentials(department, password):
     
-    if (department == "development" and password == config('DEV_PASSWORD')) | (department == "design" and password == config('DESIGN_PASSWORD')) | (department == "communication" and password == config('COM_PASSWORD')) | (department == "relex-logistics" and password == config('RELEX_PASSWORD')) | (department == "multimedia" and password == config('MULT_PASSWORD')):
+    if (department == "development" and password == os.environ.get('DEV_PASSWORD')) | (department == "design" and password == os.environ.get('DESIGN_PASSWORD')) | (department == "communication" and password == os.environ.get('COM_PASSWORD')) | (department == "relex-logistics" and password == os.environ.get('RELEX_PASSWORD')) | (department == "multimedia" and password == os.environ.get('MULTI_PASSWORD')) | (department == "game-dev" and password == os.environ.get('GD_PASSWORD')) | (department == "uiux" and password == os.environ.get('UIUX_PASSWORD')) | (department == "activities" and password == os.environ.get('ACT_PASSWORD')):
         return True
     else:
         return False        
@@ -163,3 +162,33 @@ def activity(request, activity_id):
         activity = Activities.objects.get(id=activity_id)
         return Response({"activity": ActivitySerializer(activity).data})
     
+
+@api_view(["GET"])
+def import_members(request):
+    print("importing members")
+    with open('members.csv', newline='') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+        for row in spamreader:
+            if(row):
+                member = Member.objects.get_or_create(email=row[0],name=row[1])[0]
+                for i in range(2, len(row)):
+                    if (len(row[i]) < 4):
+                        continue
+                    row[i] = row[i].strip()
+                    if (row[i][0] == '"'):
+                        row[i] = row[i][1:]
+                    if (row[i][-1] == '"'):
+                        row[i] = row[i][:-1]
+                    if (row[i] == "design" or row[i] == "development" or row[i] == "communication" or row[i] == "relex-logistics" or row[i] == "multimedia" or row[i] == "game-dev" or row[i] == "uiux" or row[i] == "activities"):
+                        department = Department.objects.get(name=row[i])
+                        member.departments.add(department)
+                    member.save()
+                #  parse row 2 by commas ex: "design,development"
+                # departments = row[3].split(",")
+                # for department in departments:
+                #     department = department.strip()
+                #     if (department == "design" or department == "development" or department == "communication" or department == "relex-logistics" or department == "multimedia" or department == "game-dev" or department == "uiux" or department == "activities"):
+                #         departments = Department.objects.get(name=department)
+                #         member.departments.add(departments)
+                #         member.save()
+    return Response({"status": "done"})

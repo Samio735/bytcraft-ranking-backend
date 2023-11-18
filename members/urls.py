@@ -11,5 +11,6 @@ urlpatterns = [
     path('unassign-member/', views.unassign),
     path('finish-activity/', views.finish_activity),
     path("activities/active/", views.active_activities),
-    path("activity/<int:activity_id>/", views.activity)
+    path("activity/<int:activity_id>/", views.activity),
+    path("import/", views.import_members),
 ]

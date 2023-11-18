@@ -10,14 +10,22 @@ DEPARTMENT_CHOICES = (
 )
 
 
+
+class Department(models.Model):
+    name = models.CharField(max_length=100, unique=True,primary_key=True)
+    
+    def __str__(self):
+        return self.name
 class Member(models.Model):
     email = models.EmailField()
     name = models.CharField(max_length=100)
-    department = models.CharField(choices=DEPARTMENT_CHOICES, null=True, blank=True, max_length=100)
+    departments = models.ManyToManyField(Department, related_name="members", blank=True)
     points = models.IntegerField(default=0)
     
     def __str__(self):
         return self.name
+    
+
     
 
 
