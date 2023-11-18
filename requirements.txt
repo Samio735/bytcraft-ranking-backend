@@ -6,4 +6,4 @@ gunicorn==21.2.0
 packaging==23.1
 pytz==2023.3
 typing_extensions==4.7.1
-dotenv
+
