@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-import os
 
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
