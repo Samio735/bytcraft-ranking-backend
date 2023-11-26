@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'ranking.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-DEV_MODE = os.getenv('DEV_MODE', 'True')
+DEV_MODE = os.getenv('DEV_MODE', 'True') == 'True'
 
 if DEV_MODE == 'False':
     DATABASES = {
