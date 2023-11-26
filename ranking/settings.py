@@ -93,13 +93,11 @@ if DEV_MODE == 'False':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.getenv('DB_NAME', 'ranking'),
-            'USER': os.getenv('DB_USER', 'root'),
-            'PASSWORD': os.getenv('DB_PASSWORD', ''),
-            'HOST': os.getenv('DB_HOST', 'localhost'),
-            'PORT': os.getenv('DB_PORT', '3306'),
+            'OPTIONS': {
+                'read_default_file': '/etc/mysql/my.cnf',
+            },
         }
-    }
+}
 else:
     DATABASES = {
             "default": {
