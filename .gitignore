@@ -1,2 +1,5 @@
 .env
 env/
+.gitgnore
+db.sqlite3
+```
